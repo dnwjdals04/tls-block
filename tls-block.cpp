@@ -116,7 +116,7 @@ void send_rst_to_server(pcap_t* handle, const EthHdr* eth, const IpHdr* ip, cons
     std::memcpy(ip_new, ip, ip_len);
     ip_new->sip_ = ip->sip_;
     ip_new->dip_ = ip->dip_;
-    ip_new->ttl = 128;
+    ip_new->ttl = ip->ttl;
     ip_new->total_length = htons(ip_len + tcp_len);
     ip_new->checksum = 0;
     ip_new->checksum = calc_checksum((uint16_t*)ip_new, ip_len);
@@ -155,7 +155,7 @@ void send_rst_to_client(const IpHdr* ip, const TcpHdr* tcp, int payload_len) {
     std::memcpy(ip_new, ip, ip_len);
     ip_new->sip_ = ip->dip_;
     ip_new->dip_ = ip->sip_;
-    ip_new->ttl = 128;
+    ip_new->ttl = ip->ttl;
     ip_new->total_length = htons(total_len);
     ip_new->checksum = 0;
     ip_new->checksum = calc_checksum((uint16_t*)ip_new, ip_len);
