@@ -209,8 +209,8 @@ int main(int argc, char* argv[]) {
     std::string dev = argv[1], pattern = argv[2];
     local_mac = get_mac(dev);
     std::map<Key, std::string> segments;
-    std::map<Key, time_t> blockedFlows;  // ✅ RST 감시용 키 저장소
-    const int BLOCK_TTL = 5; // ✅ 5초간 RST 반복 전송
+    std::map<Key, time_t> blockedFlows;  // RST 감시용 키 저장소
+    const int BLOCK_TTL = 5; // 5초간 RST 반복 전송
 
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_t* handle = pcap_open_live(dev.c_str(), BUFSIZ, 1, 1, errbuf);
@@ -277,7 +277,7 @@ int main(int argc, char* argv[]) {
                     send_rst_to_server(handle, eth, ip, tcp, payload_len);
                     send_rst_to_client(ip, tcp, payload_len);
 
-                    blockedFlows[key] = time(nullptr);  // ✅ 감시 시작 시간 기록
+                    blockedFlows[key] = time(nullptr);  // 감시 시작 시간 기록
                     segments.erase(key); // 현재 버퍼 제거
                 }
             }
